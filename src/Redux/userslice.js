@@ -1,17 +1,13 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {  createSlice } from "@reduxjs/toolkit";
+import { fetchPosts } from "../API/API";
 
 
-export const fetchPosts = createAsyncThunk('/posts', async () => {
-  const response = await fetch('https://jsonplaceholder.typicode.com/posts');
-  const result = await response.json(); 
-  console.log(result)
-  return result;
-});
 
 const userSlice = createSlice({
   name: 'user',
   initialState: {
     users: [],
+    isAuth:''
   },
   reducers: {
     login(state, action) {
@@ -19,17 +15,17 @@ const userSlice = createSlice({
       state.users.map((item) => {
         if (item.email === email) {
           if (item.password === password) {
-            localStorage.setItem('login', "true");
+            state.isAuth=true;
           }
         }
       });
     },
     signup(state, action) {
       state.users.push(action.payload);
-      console.log("new user created");
+
     },
     logout(state, action) {
-        localStorage.setItem('login', "false");
+      state.isAuth=false;
     },
   },
 });
@@ -43,7 +39,6 @@ const dataSlice = createSlice({
   reducers: {
     addPost(state,action){
         state.posts.push(action.payload)
-        console.log('added')
     },
     deletePost(state,action){
         state.posts.map((item)=>item.id!==action.payload)
@@ -52,7 +47,7 @@ const dataSlice = createSlice({
     updatePost(state,action){
         const updatedPost=state.posts.findIndex((item)=>item.id===action.payload.id)
         state.posts.splice(updatedPost,1,action.payload)
-        console.log('updated')
+    
     }
   },
   extraReducers: (builder) => {

@@ -1,6 +1,7 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { logout } from '../Redux/userslice'
+import { logout } from '../../Redux/userslice'
+import { Link } from 'react-router-dom'
 
 
 function Sidebar() {
@@ -10,11 +11,10 @@ function Sidebar() {
         dispatch(logout())
     }
   return (
-    <div className='bg-primary' style={{height:'100vh',width:'250px'}}>
+    <div className='text-dark' style={{ backgroundColor:'#fbeee6 ',height:'100vh',width:'250px'}}>
         <ul className='list-unstyled'>
-            <a href='/dashboard'><li className='text-white p-3 text-center'>Dashoard</li></a>
-            <a href='/login'><li className='text-white p-3 text-center'>Login</li></a>
-            <a href="/login"><li className='text-white p-3 text-center' onClick={logOut}>Logout</li></a>
+            <Link className='text-decoration-none text-dark fs-5' to='/'><li className=' p-3 text-center'>Dashboard</li></Link>
+            <Link  className='text-decoration-none text-dark fs-5'to="/login"><li className=' p-3 text-center' onClick={logOut}>Logout</li></Link>
         </ul>
     </div>
   )

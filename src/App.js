@@ -1,38 +1,35 @@
-
 import { Provider } from 'react-redux';
-import Login from './Components/login/Login';
-import Signup from './Components/login/Signup';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Protected from './Components/login/Protected';
-import Home from './Components/Dashboard/Home';
+import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
 import { persistStore } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
-import store from './Components/Redux/store';
-import Sidebar from './Components/Dashboard/Sidebar';
 import { ToastContainer } from 'react-toastify';
+import { useEffect, useState } from 'react';
 
+import store from './Redux/store';
+import Login from './Components/login/Login';
+import Signup from './Components/login/Signup';
+import Protected from './Components/login/Protected';
+import Home from './Components/Dashboard/Home';
+import Sidebar from './Components/Dashboard/Sidebar';
+import UnprotectedRoute from './Components/login/UnprotectedRotes';
 
 function App() {
-  let persistor=persistStore(store)
+  const persistor = persistStore(store);
+
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
-        
-        <div className="App d-flex">
-          <ToastContainer />
-          <div> <Sidebar/></div>
-          <div>
-          <BrowserRouter>
-            <Routes>
-              <Route path='/login' element={<Protected component={Login} />} />
-              <Route path='/signup' element={<Signup />} />
-              <Route path='/dashboard' element={<Protected component={Home} />} />
 
-            </Routes>
-          </BrowserRouter>
-          </div>
-        </div>
-        
+        <ToastContainer />
+        <Routes>
+          <Route element={<UnprotectedRoute/>}>
+            <Route path='/login' element={<Login />} />
+            <Route path='/signup' element={<Signup />} />
+          </Route>
+          <Route element={<Protected />}>
+            <Route path='/' element={<Home />} />
+          </Route>
+        </Routes>
       </PersistGate>
     </Provider>
   );
