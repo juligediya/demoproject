@@ -14,8 +14,11 @@ const userSlice = createSlice({
       const { email, password } = action.payload;
       state.users.map((item) => {
         if (item.email === email) {
+          console.log('yes')
           if (item.password === password) {
+            console.log('haa')
             state.isAuth=true;
+            localStorage.setItem('login',state.isAuth)
           }
         }
       });
@@ -26,6 +29,7 @@ const userSlice = createSlice({
     },
     logout(state, action) {
       state.isAuth=false;
+      localStorage.setItem('login',state.isAuth)
     },
   },
 });
